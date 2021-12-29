@@ -6,6 +6,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,6 +46,8 @@ public class Main extends JavaPlugin {
   @Override
   public void onEnable() {
     log = getLogger();
+
+    loadAndSaveConfig();
 
     startWatcher();
   }
@@ -164,4 +167,40 @@ public class Main extends JavaPlugin {
     }
   }
 
+  private void loadAndSaveConfig() {
+    // - First we load the config
+    //   and do basic sanity validation to ignore too bad values
+    // - Then we set back all the sane config values
+    // - And save the config file
+    //   (if user had valid values it will not change)
+    //   (if config file did not existed it will be created for user to edit later)
+    //   (if there were bad values they will be reset to default)
+    FileConfiguration config = this.getConfig();
+
+    // bool we can just default to our value
+    this.unloadChunksFirst = config.getBoolean("unload_chunks", this.unloadChunksFirst);
+
+    // now numbers we want to check some bounds
+    // (at least negative, or zero which is returned by bukkit.configuration.MemorySection for non-Numeric value)
+    // so lets do it via temporary variable
+    long tmpValue = -1;
+
+    tmpValue = config.getLong("sleep_time_millisec", -1);
+    if (tmpValue > 0) { this.hibernationTimeMillis = tmpValue; }
+    config.set("sleep_time_millisec", this.hibernationTimeMillis);
+
+    tmpValue = (long) config.getInt("sleep_delay_ticks", -1);
+    if (tmpValue > 0) { this.hibernationDelayTicks = (int) tmpValue; }
+    config.set("sleep_delay_ticks", this.hibernationDelayTicks);
+
+    tmpValue = (long) config.getInt("sleep_frequency_ticks", -1);
+    if (tmpValue > 0) { this.hibernationFrequencyTicks = (int) tmpValue; }
+    config.set("sleep_frequency_ticks", this.hibernationFrequencyTicks);
+
+    tmpValue = (long) config.getInt("online_check_frequency_ticks", -1);
+    if (tmpValue > 0) { this.onlineCheckFrequencyTicks = (int) tmpValue; }
+    config.set("online_check_frequency_ticks", this.onlineCheckFrequencyTicks);
+
+    saveConfig();
+  }
 }
