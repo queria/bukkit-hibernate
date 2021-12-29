@@ -58,12 +58,12 @@ public class Main extends JavaPlugin {
           this.firstRun = false;
         }
         try {
-          Thread.sleep(1000L);
+          Thread.sleep(250L);
           this.firstRun = false;
         } catch (Exception ignored) {
           // IGNORED
         }
       }
-    }).runTaskTimer(this, 0, 1);
+    }).runTaskTimer(this, 1500, 1);
   }
 }
