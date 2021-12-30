@@ -1,5 +1,6 @@
 package com.woutwoot.hibernate;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -81,24 +82,14 @@ public class Main extends JavaPlugin {
 
   private void startWatcher() {
 
-    log.info("Starting watcher");
+    log.log(Level.INFO, "Starting watcher with delay {0} ticks", this.hibernationDelayTicks);
 
     watcher = (new BukkitRunnable() {
-
       @Override
       public void run() {
-        if (!Main.this.shouldHibernate()) {
-          // ensure task is not running
-          // (likely we do not need this here
-          //  as hibernation task will stop itself
-          //  when conditions change [as it's running often unlike us here]
-          //  but keeping it here for now
-          //  otherwise if(shouldHibernate){ startTask } could be enough
-          Main.this.stopTask();
-          return;
+        if (Main.this.shouldHibernate()) {
+          Main.this.startTask();
         }
-        // no players and enabled
-        Main.this.startTask();
       }
     }).runTaskTimer(
       this,
@@ -127,7 +118,9 @@ public class Main extends JavaPlugin {
       return;
     }
 
-    log.info("Starting hibernation task");
+    log.log(Level.INFO,
+        "Starting hibernation task with delay {0} ticks",
+        this.hibernationDelayTicks);
 
     task = (new BukkitRunnable() {
       private boolean firstRun = true;
@@ -143,6 +136,7 @@ public class Main extends JavaPlugin {
         }
         if (firstRun) {
           firstRun = false;
+          log.info("Server is sleeping now");
           if (Main.this.unloadChunksFirst) {
             Main.this.unloadChunks();
           }
