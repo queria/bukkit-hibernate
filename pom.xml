@@ -6,7 +6,7 @@
 
   <groupId>net.sa_tas</groupId>
   <artifactId>hibernate</artifactId>
-  <version>1.02-qs.07</version>
+  <version>1.02-qs.08</version>
   <packaging>jar</packaging>
 
   <name>Hibernate</name>
