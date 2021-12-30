@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.woutwoot</groupId>
+  <groupId>net.sa_tas</groupId>
   <artifactId>Hibernate</artifactId>
   <version>1.02-qs.07</version>
   <packaging>jar</packaging>
