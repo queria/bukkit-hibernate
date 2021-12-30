@@ -39,9 +39,9 @@ public class Main extends JavaPlugin {
 
   private boolean unloadChunksFirst = true;
   private long hibernationTimeMillis = 1500L;
-  private int hibernationDelayTicks = 5*20; // delay by 5 sec (TODO: this should be higher for production, like minute or two)
+  private int hibernationDelayTicks = 3*60*20; // maybe about three minutes
   private int hibernationFrequencyTicks = 2;
-  private int onlineCheckFrequencyTicks = 30*20; // check every half minute
+  private int onlineCheckFrequencyTicks = 30*20; // check about every half minute
 
   @Override
   public void onEnable() {
