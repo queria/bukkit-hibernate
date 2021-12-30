@@ -38,9 +38,9 @@ public class Main extends JavaPlugin {
   private BukkitTask watcher;
 
   private boolean unloadChunksFirst = true;
-  private long hibernationTimeMillis = 1500L;
+  private long hibernationTimeMillis = 500L;
   private int hibernationDelayTicks = 3*60*20; // maybe about three minutes
-  private int hibernationFrequencyTicks = 2;
+  private int hibernationFrequencyTicks = 1;
   private int onlineCheckFrequencyTicks = 30*20; // check about every half minute
 
   @Override
