@@ -1,39 +1,38 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+# This workflow will build a package using Maven and then archive it as build artifact
+# in case when tag is pushed it will create new Release entry instead
 
-name: Maven Package
+name: "Maven Package Artifact"
 
-on:
-  push:
-    branches: [ master ]
+on: "push"
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     permissions:
-      contents: read
-      packages: write
+      contents: "write"
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
+    - uses: "actions/checkout@v2"
+    - name: "Set up JDK 17"
+      uses: "actions/setup-java@v2"
       with:
-        java-version: '17'
-        distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        java-version: "17"
+        distribution: "temurin"
 
-    - name: Build package
-      run: |
-        mvn --batch-mode package
-        pwd
-        ls -lah
-        ls -lah target/
+    - name: "Build package"
+      run: "mvn --batch-mode package"
 
-    - name: Publish to GitHub Packages
-      run: mvn --batch-mode -DaltDeploymentRepository="${REPO}" -DaltReleaseDeploymentRepository="${REPO}" -DaltSnapshotDeploymentRepository="${REPO}" -Dmaven.install.skip=true -s $GITHUB_WORKSPACE/settings.xml deploy
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-        REPO: "github::default::https://maven.pkg.github.com/${{ github.repository }}"
+    - name: "Archive jar"
+      uses: "actions/upload-artifact@v2"
+      if: "! startsWith(github.ref, 'refs/tags')"
+      with:
+        path: "target/hibernate-*.jar"
+
+
+    - name: "Release"
+      uses: "softprops/action-gh-release@v1"
+      if: "startsWith(github.ref, 'refs/tags')"
+      with:
+        files: "target/hibernate-*.jar"
+        fail_on_unmatched_files: true
+        generate_release_notes: true
