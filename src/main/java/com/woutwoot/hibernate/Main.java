@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
 
   private void startWatcher() {
 
-    log.log(Level.INFO, "Starting watcher with delay {0} ticks", this.hibernationDelayTicks);
+    log.info("Starting watcher");
 
     watcher = (new BukkitRunnable() {
       @Override
@@ -93,7 +93,7 @@ public class Main extends JavaPlugin {
       }
     }).runTaskTimer(
       this,
-      this.hibernationDelayTicks,
+      0,
       this.onlineCheckFrequencyTicks);
   }
 

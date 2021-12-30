@@ -6,7 +6,7 @@
 
   <groupId>com.woutwoot</groupId>
   <artifactId>Hibernate</artifactId>
-  <version>1.02-qs.06</version>
+  <version>1.02-qs.07</version>
   <packaging>jar</packaging>
 
   <name>Hibernate</name>
