@@ -26,13 +26,13 @@ jobs:
       uses: "actions/upload-artifact@v2"
       if: "! startsWith(github.ref, 'refs/tags')"
       with:
-        path: "target/hibernate-*.jar"
+        path: "target/Hibernate-*.jar"
 
 
     - name: "Release"
       uses: "softprops/action-gh-release@v1"
       if: "startsWith(github.ref, 'refs/tags')"
       with:
-        files: "target/hibernate-*.jar"
+        files: "target/Hibernate-*.jar"
         fail_on_unmatched_files: true
         generate_release_notes: true

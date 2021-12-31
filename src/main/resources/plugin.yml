@@ -1,8 +1,8 @@
 name: Hibernate
 version: ${project.version}
-main: net.sa_tas.hibernate.Main
+main: com.woutwoot.hibernate.Main
 api-version: 1.13
-authors: [queria, woutwoot]
+authors: [woutwoot, queria]
 commands:
   hibernate:
     description: Command that will toggle hibernate.
